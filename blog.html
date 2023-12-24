@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Blog Posts</title>
+    <style>
+       body {
+            font-family: 'Arial', sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            /* align-items: center; */
+            justify-content: center;
+            height: 100vh;
+        }
+
+        h1 {
+            color: #333;
+            text-align: center;
+        }
+
+        #tableContainer {
+            overflow-x: auto;
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            margin-top: 20px;
+            margin-left: 20px; /* Left margin for the table */
+
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            border-radius: 8px;
+            overflow: hidden;
+        }
+
+        th, td {
+            border: 1px solid #ddd;
+            padding: 12px;
+            text-align: left;
+        }
+
+        th {
+            background-color: #4CAF50;
+            color: #fff;
+            position: sticky;
+            top: 0;
+        }
+
+        tr:nth-child(even) {
+            background-color: #f2f2f2;
+        }
+
+        img {
+            max-width: 100px;
+            max-height: 100px;
+        }
+
+        button {
+            background-color: #007BFF;
+            color: #fff;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+
+<body>
+
+    <h1>Blog Posts</h1>
+    <div id="tableContainer">
+
+        <table id="blogTable">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Sequence</th>
+                    <th>Heading</th>
+                    <th>Date</th>
+                    <th>Tags</th>
+                    <th>Content</th>
+                    <th>Status</th>
+                    <th>Image URL</th>
+                    <th>Image</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                <!-- Table rows will be dynamically added here -->
+            </tbody>
+        </table>
+
+    </div>
+
+    <script>
+        // Variable to store fetched data
+        let apiResponse;
+
+        // Function to fetch data from the API
+        function fetchData() {
+            // Replace this URL with the API endpoint you want to call
+            const apiUrl = 'https://139-59-5-56.nip.io:3443/getBlogList';
+
+            // Make a GET request using the Fetch API
+            fetch(apiUrl)
+                .then(response => response.json())
+                .then(data => {
+                    // Store the fetched data
+                    apiResponse = data;
+
+                    // Call the renderTable function with the fetched data
+                    renderTable();
+                })
+                .catch(error => {
+                    console.error('Error fetching data:', error);
+                });
+        }
+
+        // Function to render the table rows
+        function renderTable() {
+            const tableBody = document.querySelector('#blogTable tbody');
+
+            // Clear existing rows
+            tableBody.innerHTML = '';
+
+            // Loop through API response data and create table rows
+            apiResponse.forEach(post => {
+                const row = document.createElement('tr');
+                let datess = new Date(post.date);
+                const formattedDate = datess.toISOString().split('T')[0];
+
+                row.innerHTML = `
+                    <td>${post.id}</td>
+                    <td contenteditable>${post.sequence}</td>
+                    <td contenteditable>${post.heading}</td>
+                    <td contenteditable>${formattedDate}</td>
+                    <td contenteditable>${post.tags}</td>
+                    <td contenteditable>${post.content}</td>
+                    <td contenteditable>${post.status}</td>
+                    <td contenteditable>${post.image}</td>
+                    <td><img src="${post.image}" alt="Post Image" style="max-width: 100px; max-height: 100px;"></td>
+                    <td><button onclick="updatePost(${post.id})">Update</button></td>
+                `;
+                tableBody.appendChild(row);
+            });
+
+            // Add a row for creating a new post
+            const newRow = document.createElement('tr');
+            newRow.innerHTML = `
+                <td contenteditable>New</td>
+                <td contenteditable></td>
+                <td contenteditable></td>
+                <td contenteditable></td>
+                <td contenteditable></td>
+                <td contenteditable></td>
+                <td contenteditable></td>
+                <td contenteditable></td>
+                <td></td>
+                <td><button onclick="insertPost()">Insert</button></td>
+            `;
+            tableBody.appendChild(newRow);
+        }
+
+        // Function to update a post
+        function updatePost(postId) {
+    // Get the table body
+    const tableBody = document.querySelector('#blogTable tbody');
+
+    // Find the row with the specified post ID
+    const rowToUpdate = Array.from(tableBody.children).find(row => {
+        const idCell = row.querySelector('td:nth-child(1)');
+        return idCell.textContent == postId;
+    });
+
+    // Extract updated data from the cells in the row
+    const id = Number(rowToUpdate.querySelector('td:nth-child(1)').textContent);
+    const sequence = rowToUpdate.querySelector('td:nth-child(2)').textContent;
+    const heading = rowToUpdate.querySelector('td:nth-child(3)').textContent;
+    const date = rowToUpdate.querySelector('td:nth-child(4)').textContent;
+    const tags = rowToUpdate.querySelector('td:nth-child(5)').textContent;
+    const content = rowToUpdate.querySelector('td:nth-child(6)').textContent;
+    const status = rowToUpdate.querySelector('td:nth-child(7)').textContent;
+    const image = rowToUpdate.querySelector('td:nth-child(8)').textContent;
+
+    // Create an object with the updated data
+    const postData = {
+        id,
+        sequence,
+        heading,
+        date,
+        tags,
+        content,
+        status,
+        image
+    };
+
+    console.log(postData);
+
+    fetch('https://139-59-5-56.nip.io:3443/updateBlog', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(postData),
+            })
+                .then(response => response.json())
+                .then(data => {
+                    console.log('Insert response:', data);
+                    alert("Blog Updated Successfully");
+                })
+                .catch(error => {
+                    console.error('Error inserting post:', error);
+                });
+}
+
+        function insertPost() {
+            // Get the table body
+            const tableBody = document.querySelector('#blogTable tbody');
+
+            // Get the last row (which is the newly added row)
+            const newRow = tableBody.lastChild;
+
+            // Extract data from the cells in the new row
+            const id = newRow.querySelector('td:nth-child(1)').textContent;
+            const sequence = newRow.querySelector('td:nth-child(2)').textContent;
+            const heading = newRow.querySelector('td:nth-child(3)').textContent;
+            const date = newRow.querySelector('td:nth-child(4)').textContent;
+            const tags = newRow.querySelector('td:nth-child(5)').textContent;
+            const content = newRow.querySelector('td:nth-child(6)').textContent;
+            const status = newRow.querySelector('td:nth-child(7)').textContent;
+            const image = newRow.querySelector('td:nth-child(8)').textContent;
+
+            // Create an object with the extracted data
+            const postData = {
+                sequence,
+                heading,
+                date,
+                tags,
+                content,
+                status,
+                image
+            };
+
+            console.log(postData);
+
+            fetch('https://139-59-5-56.nip.io:3443/updateBlog', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(postData),
+            })
+                .then(response => response.json())
+                .then(data => {
+                    console.log('Insert response:', data);
+                    alert("Blog Inserted Successfully");
+                })
+                .catch(error => {
+                    console.error('Error inserting post:', error);
+                });
+        }
+
+        // Call the fetchData function when the page loads
+        window.onload = fetchData;
+    </script>
+
+</body>
+
+</html>
