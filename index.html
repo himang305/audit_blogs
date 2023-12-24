@@ -19,7 +19,7 @@
         }
 
         nav {
-            display: flex;
+            display: none; /* Initially hide the navigation bar */
             justify-content: center;
             background-color: #555;
             padding: 10px;
@@ -33,25 +33,56 @@
 
         section {
             padding: 20px;
+            text-align: center;
+        }
+
+        #pinContainer {
+            margin-top: 20px;
+        }
+
+        #contentContainer {
+            display: none;
         }
     </style>
 </head>
 <body>
 
-<header>
+<header id="header">
     <h1>Securedapp CMS</h1>
 </header>
 
-<nav>
+<nav id="nav">
     <a href="blog.html">Blogs</a>
-    <a href="page2.html">Page 2</a>
-    <a href="page3.html">Page 3</a>
+    <a href="page2.html">Scans</a>
+    <a href="page3.html">Users</a>
     <!-- Add more links as needed -->
 </nav>
 
-<section>
-    <h2>Welcome to Securedapp CMS Website!</h2>
+<section id="pinContainer">
+    <label for="pin">Enter PIN:</label>
+    <input type="password" id="pin" />
+    <button onclick="checkPin()">Submit</button>
 </section>
+
+<section id="contentContainer">
+    <h2>Welcome to Securedapp CMS Website!</h2>
+    <!-- Add your secured content here -->
+</section>
+
+<script>
+    function checkPin() {
+        const enteredPin = document.getElementById('pin').value;
+        const correctPin = '1234'; // Change this to your desired PIN
+
+        if (enteredPin === correctPin) {
+            document.getElementById('pinContainer').style.display = 'none';
+            document.getElementById('contentContainer').style.display = 'block';
+            document.getElementById('nav').style.display = 'flex'; // Show the navigation bar
+        } else {
+            alert('Incorrect PIN. Please try again.');
+        }
+    }
+</script>
 
 </body>
 </html>
