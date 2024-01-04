@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Steps Table with Styling</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+      }
+
+      table {
+        width: 80%;
+        border-collapse: collapse;
+        margin: 20px auto;
+      }
+
+      th,
+      td {
+        border: 1px solid #ddd;
+        padding: 12px;
+        text-align: left;
+      }
+
+      th {
+        background-color: #f2f2f2;
+      }
+
+      tr:nth-child(even) {
+        background-color: #f9f9f9;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>Blog Rules</h1>
+
+    <table>
+      <thead>
+        <tr>
+          <th>Step Number</th>
+          <th>Description</th>
+          <th>Notes</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>1</td>
+          <td>Blog Content Paragraphs inside square brackets using ( [] )</td>
+          <td>[Para_1][Para_2][Para_3]</td>
+        </tr>
+        <tr>
+          <td>2</td>
+          <td>Blog Hyperlinks using ( <|> )</td>
+          <td>< Web Technologies | https://en.wikipedia.org/wiki/Web3 ></td>
+        </tr>
+        <tr>
+          <td>3</td>
+          <td>Blog Next Line ( using /n/ )</td>
+          <td>[Para_1] /n/ [Para_2]</td>
+        </tr>
+
+        <tr>
+          <td>4</td>
+          <td>Blog Sub Headings ( using **heading** )</td>
+          <td>[Para_1] [**Heading_text**] [Para_2]</td>
+        </tr>
+      </tbody>
+    </table>
+  </body>
+</html>
