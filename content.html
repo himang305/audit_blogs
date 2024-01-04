@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+
+    <style>
+      body {
+        font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif; /* Changed font */
+        background-color: #6f7170;
+        margin: 0;
+        padding: 0;
+        display: flex;
+        flex-direction: column;
+        align-items: center; /* Center content horizontally */
+        justify-content: center;
+        min-height: 100vh; /* Ensure minimum height */
+      }
+
+      #contentInfoContainer {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        background-color: #ffffff;
+        align-items: center;
+        width: 500px;
+        margin: auto; /* Center the container horizontally */
+        border: 2px solid #c3c4c5; /* Add a border with a color of your choice */
+        padding: 20px; /* Add padding for better visual appearance */
+        font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif; /* Change font */
+      }
+    </style>
+  </head>
+  <body>
+    <div id="contentInfoContainer"></div>
+
+    <script>
+      let apiResponse;
+
+      function fetchData() {
+        const apiUrl = "https://139-59-5-56.nip.io:3443/getBlogList";
+
+        fetch(apiUrl)
+          .then((response) => response.json())
+          .then((data) => {
+            apiResponse = data;
+
+            // Extract postId from the URL
+            const urlParams = new URLSearchParams(window.location.search);
+            const postId = urlParams.get("postId");
+
+            // Display content for the extracted postId
+            renderContentInfo(postId);
+          })
+          .catch((error) => {
+            console.error("Error fetching data:", error);
+          });
+      }
+
+      function renderContentInfo(postId) {
+        const contentInfoContainer = document.getElementById(
+          "contentInfoContainer"
+        );
+
+        // Clear existing content
+        contentInfoContainer.innerHTML = "";
+
+        // Find the post with the specified ID
+        const post = apiResponse.find((post) => post.id == postId);
+
+        if (post) {
+          const contentElement = document.createElement("div");
+          contentElement.innerHTML = `<p>${post.content}</p>`;
+          contentInfoContainer.appendChild(contentElement);
+        } else {
+          console.error(`Post with ID ${postId} not found.`);
+        }
+      }
+
+      // Call the fetchData function when the page loads
+      window.onload = fetchData;
+    </script>
+  </body>
+</html>

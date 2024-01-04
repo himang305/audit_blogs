@@ -20,17 +20,17 @@ body {
   text-align: center; /* Optional: Center the text within the header */
 }
 
-#tableContainer {
+#tableContainer{
   overflow-x: auto;
   background-color: #fff;
   border-radius: 8px;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-  max-width: 1250px; Set the maximum width for the table */
+  max-width: 1200px;
   margin: 20px auto;
 }
 
 table {
-  width: 100%; /* Make the table responsive */
+  width: 100%;
   border-collapse: collapse;
   border-radius: 8px;
   overflow: hidden;
@@ -54,21 +54,21 @@ th {
 tr:nth-child(even) {
   background-color: #f2f2f2;
 }
-
+th:nth-child(6),
+td:nth-child(6) {
+  width: 600px; /* Change this value to your desired width */
+}
+th:nth-child(10),
+td:nth-child(10) {
+  width: 50px; /* Change this value to your desired width */
+}
 img {
   max-width: 100px;
   max-height: 100px;
 }
 
-#blogTable td:nth-child(6),
-#content {
-  width: 400px;
-}
-
-#blogTable td:nth-child(10),
-#img-url {
-  width: 100px;
-  font-size: 10px;
+#content-btn{
+  background-color: #96def4;
 }
 
 button {
@@ -79,6 +79,8 @@ button {
   border-radius: 4px;
   cursor: pointer;
 }
+
+
 
 button:hover {
   background-color: #5f5858;
