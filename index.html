@@ -4,46 +4,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Securedapp CMS</title>
-    <style>
-      body {
-        font-family: Arial, sans-serif;
-        margin: 0;
-        padding: 0;
-      }
-
-      header {
-        background-color: #333;
-        color: #fff;
-        padding: 10px;
-        text-align: center;
-      }
-
-      nav {
-        display: none;
-        justify-content: center;
-        background-color: #555;
-        padding: 10px;
-      }
-
-      nav a {
-        color: #fff;
-        text-decoration: none;
-        margin: 0 15px;
-      }
-
-      section {
-        padding: 20px;
-        text-align: center;
-      }
-
-      #pinContainer {
-        margin-top: 20px;
-      }
-
-      #contentContainer {
-        display: none;
-      }
-    </style>
+    <link rel="stylesheet" href="./styles.css" />
   </head>
   <body>
     <header id="header">
@@ -51,11 +12,11 @@
     </header>
 
     <nav id="nav">
-      <a href="blog.html">Blogs</a>
-      <a href="blogRules.html">Blogs Rules</a>
+      <a href="./Blog/blog.html">Blogs</a>
+      <a href="./Blogrules/blogRules.html">Blogs Rules</a>
 
-      <a href="scans.html">Scans</a>
-      <a href="users.html">Users</a>
+      <a href="./Scans/scans.html">Scans</a>
+      <a href="./Users/users.html">Users</a>
       <!-- Add more links as needed -->
     </nav>
 
@@ -70,19 +31,6 @@
       <!-- Add your secured content here -->
     </section>
 
-    <script>
-      function checkPin() {
-        const enteredPin = document.getElementById("pin").value;
-        const correctPin = "1234"; // Change this to your desired PIN
-
-        if (enteredPin === correctPin) {
-          document.getElementById("pinContainer").style.display = "none";
-          document.getElementById("contentContainer").style.display = "block";
-          document.getElementById("nav").style.display = "flex"; // Show the navigation bar
-        } else {
-          alert("Incorrect PIN. Please try again.");
-        }
-      }
-    </script>
+    <script src="./script.js"></script>
   </body>
 </html>
