@@ -1,4 +1,6 @@
 let apiResponse;
+let postId;
+
       let isContentChanged = false;
 
       function fetchData() {
@@ -11,7 +13,7 @@ let apiResponse;
 
             // Extract postId from the URL
             const urlParams = new URLSearchParams(window.location.search);
-            const postId = urlParams.get("postId");
+            postId = urlParams.get("postId");
 
             // Display content for the extracted postId
             renderContentInfo(postId);
@@ -22,6 +24,7 @@ let apiResponse;
       }
 
       function renderContentInfo(postId) {
+        console.log(postId);
         const contentInfoContainer = document.getElementById(
           "contentInfoContainer"
         );
@@ -38,7 +41,10 @@ let apiResponse;
           // Create editable content
           const editableContent = document.createElement("div");
           editableContent.contentEditable = true;
-          editableContent.innerHTML = post.content;
+
+          const modifiedContent = post.content.replace(/]/g, ']<br><br>');
+          console.log(modifiedContent);
+          editableContent.innerHTML = modifiedContent;
 
           // Create save button
           const saveButton = document.createElement("button");
@@ -67,14 +73,33 @@ let apiResponse;
       }
 
       function updateContent(postId, newContent) {
-        const apiUrl = "https://139-59-5-56.nip.io:3443/updateContent";
+        const post = apiResponse.find((post) => post.id == postId);
+     
+        const newContents = newContent.replace(/<br>/g, '');
+
+
+        const apiUrl = "https://139-59-5-56.nip.io:3443/updateBlog";
+
+        let datess = new Date(post.date);
+        const formattedDate = datess.toISOString().split("T")[0];
+
         const requestBody = {
-          postId: postId,
-          newContent: newContent,
+          id: postId,
+          content: newContents,
+          sequence: post.sequence,
+          heading: post.heading,
+          date: formattedDate,
+          tags: post.tags,
+          status: post.status,
+          image: post.image,  
+          category: post.category,
+          url: post.url,
         };
 
+        console.log(requestBody);
+
         fetch(apiUrl, {
-          method: "PUT",
+          method: "POST",
           headers: {
             "Content-Type": "application/json",
           },
@@ -82,14 +107,13 @@ let apiResponse;
         })
           .then((response) => response.json())
           .then((data) => {
-            console.log("Content updated successfully:", data);
-            isContentChanged = false; // Reset the flag
-            saveButton.style.display = "none"; // Hide the button after saving
+            alert("Content updated successfully:");
+            isContentChanged = false; 
+            saveButton.style.display = "none"; 
           })
           .catch((error) => {
             console.error("Error updating content:", error);
           });
       }
 
-      // Fetch data when the page loads
       fetchData();
