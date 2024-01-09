@@ -5,9 +5,9 @@ body {
   padding: 0;
   display: flex;
   flex-direction: column;
-  align-items: center;
+  align-items: center; 
   justify-content: center;
-  min-height: 100vh;
+  min-height: 100vh; 
 }
 
 #contentInfoContainer {
@@ -17,10 +17,10 @@ body {
   background-color: #ffffff;
   align-items: center;
   width: 1000px;
-  margin: auto;
-  border: 2px solid #c3c4c5;
-  padding: 20px;
-  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  margin: auto; 
+  border: 2px solid #c3c4c5; 
+  padding: 20px; 
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif; 
 }
 
 #saveButton {

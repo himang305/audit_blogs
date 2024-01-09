@@ -20,7 +20,7 @@ body {
   text-align: center; /* Optional: Center the text within the header */
 }
 
-#tableContainer {
+#tableContainer{
   overflow-x: auto;
   background-color: #fff;
   border-radius: 8px;
@@ -67,7 +67,7 @@ img {
   max-height: 100px;
 }
 
-#content-btn {
+#content-btn{
   background-color: #96def4;
 }
 
@@ -79,6 +79,8 @@ button {
   border-radius: 4px;
   cursor: pointer;
 }
+
+
 
 button:hover {
   background-color: #5f5858;
@@ -106,16 +108,4 @@ button:hover {
 
 .file-upload-btn:hover {
   background-color: #5f5858;
-}
-
-.sort-btn {
-  width: 20px; /* Adjust the width as needed */
-  height: 20px; /* Adjust the height as needed */
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  text-align: center;
-  padding: 5px; /* Adjust the padding as needed */
-  margin: 0 auto;
-  background-color: #555;
 }
