@@ -75,7 +75,8 @@ let postId;
       function updateContent(postId, newContent) {
         const post = apiResponse.find((post) => post.id == postId);
      
-        const newContents = newContent.replace(/<br>/g, '');
+        const newContent2 = newContent.replace(/<br>/g, '');
+        const newContents = newContent2.replace(/<\/?div>/g, '');
 
 
         const apiUrl = "https://139-59-5-56.nip.io:3443/updateBlog";

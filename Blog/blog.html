@@ -60,6 +60,8 @@
           });
       }
 
+
+      let contentobj = {};
       // Function to render the table rows
       function renderTable() {
         const tableBody = document.querySelector("#blogTable tbody");
@@ -72,7 +74,7 @@
           const row = document.createElement("tr");
           let datess = new Date(post.date);
           const formattedDate = datess.toISOString().split("T")[0];
-
+          contentobj[post.id] = post.content;
           row.innerHTML = `
                     <td>${post.id}</td>
                     <td contenteditable>${post.sequence}</td>
@@ -136,14 +138,14 @@
           rowToUpdate.querySelector("td:nth-child(3)").textContent;
         const date = rowToUpdate.querySelector("td:nth-child(4)").textContent;
         const tags = rowToUpdate.querySelector("td:nth-child(5)").textContent;
-        const content =
-          rowToUpdate.querySelector("td:nth-child(6)").textContent;
+        const content = contentobj[id];
         const status = rowToUpdate.querySelector("td:nth-child(7)").textContent;
         const image = rowToUpdate.querySelector("td:nth-child(10)").textContent;
         const category =
           rowToUpdate.querySelector("td:nth-child(8)").textContent;
         const url = rowToUpdate.querySelector("td:nth-child(9)").textContent;
 
+        
         // Create an object with the updated data
         const postData = {
           id,
@@ -159,6 +161,7 @@
         };
 
         console.log(postData);
+
 
         fetch("https://139-59-5-56.nip.io:3443/updateBlog", {
           method: "POST",
