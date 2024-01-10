@@ -8,30 +8,57 @@ body {
   align-items: center; 
   justify-content: center;
   min-height: 100vh; 
+
 }
 
 #contentInfoContainer {
   display: flex;
   flex-direction: column;
   justify-content: center;
-  background-color: #ffffff;
+  background-color: #f5f5f5; /* Light gray background color */
   align-items: center;
-  width: 1000px;
-  margin: auto; 
-  border: 2px solid #c3c4c5; 
-  padding: 20px; 
-  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif; 
+  width: 80%; /* Adjusted to a percentage for better responsiveness */
+  max-width: 1000px; /* Set a maximum width to maintain readability */
+  margin: 50px auto; /* Added some top and bottom margin for spacing */
+  border: 1px solid #ddd; /* Light border color */
+  border-radius: 8px; /* Rounded corners for a modern look */
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Subtle box shadow for depth */
+  padding: 20px;
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+}
+
+#contentInfoContainer h2 {
+  color: #333; /* Dark text color for headings */
+}
+
+#contentInfoContainer p {
+  color: #666; /* Slightly lighter text color for paragraphs */
+}
+
+#contentInfoContainer a {
+  color: #3498db; /* Blue color for links */
+  text-decoration: underline;
+}
+
+#contentInfoContainer a:hover {
+  color: #217dbb; /* Darker blue color on hover for links */
 }
 
 #saveButton {
-  background-color: #6f7170;
-  color: white;
-  font-family: Arial, sans-serif;
+  background-color: #3498db;
+  color: #fff;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
   border: none;
-  padding: 10px 20px;
-  margin-top: 10px;
+  padding: 12px 24px;
+  margin: 10px auto; /* Center-align the button horizontally */
   text-align: center;
   text-decoration: none;
-  font-size: 16px;
+  font-size: 18px;
   cursor: pointer;
+  border-radius: 4px;
+  transition: background-color 0.3s ease;
+}
+
+#saveButton:hover {
+  background-color: #2980b9;
 }

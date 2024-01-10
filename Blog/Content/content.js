@@ -50,7 +50,7 @@ let postId;
           const saveButton = document.createElement("button");
           saveButton.id = "saveButton";
           saveButton.textContent = "Save";
-          saveButton.style.display = "none"; // Hide initially
+          // saveButton.style.display = "none"; // Hide initially
 
           // Event listener for content changes
           editableContent.addEventListener("input", () => {
@@ -60,7 +60,7 @@ let postId;
 
           saveButton.addEventListener("click", () => {
             // Update the content in the API
-            updateContent(postId, editableContent.innerHTML);
+            updateContent(postId, editableContent.innerText);
           });
 
           contentElement.appendChild(editableContent);
@@ -110,7 +110,7 @@ let postId;
           .then((data) => {
             alert("Content updated successfully:");
             isContentChanged = false; 
-            saveButton.style.display = "none"; 
+            // saveButton.style.display = "none"; 
           })
           .catch((error) => {
             console.error("Error updating content:", error);
