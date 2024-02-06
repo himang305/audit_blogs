@@ -3,7 +3,7 @@ document.addEventListener("DOMContentLoaded", fetchData);
 async function fetchData() {
   try {
     const response = await fetch(
-      "https://139-59-5-56.nip.io:3443/get-all-users"
+      "https://139-59-5-56.nip.io:3443/getSecurewatchUserList"
     );
     const data = await response.json();
 
@@ -25,12 +25,6 @@ function displayData(users) {
     row.innerHTML = `
           <td>${user.id}</td>
           <td>${user.email}</td>
-          <td>${user.plan}</td>
-          <td>${user.credit}</td>
-          <td>${user.rcredit}</td>
-          <td>${user.status}</td>
-          <td>${user.otptime}</td>
-          <td>${user.planexpiry}</td>
           <td>${user.created_on}</td>
           <td>${user.modified_on}</td>
         `;
