@@ -17,8 +17,7 @@
         <thead>
           <tr>
             <th>ID</th>
-            <th>      <button id="sortButton" onclick="sortTable()">Sequence</button>
-            </th>
+            <th>Sequence</th>
             <th>Heading</th>
             <th>Date</th>
             <th>Tags</th>
@@ -26,7 +25,7 @@
             <th>Status</th>
             <th>Category</th>
             <th>Blog URL</th>
-            <th id="img-url">Image URL</th>
+            <th id="'img-url">Image URL</th>
             <th>Image</th>
             <th>File Upload</th>
             <th>Action</th>
@@ -60,8 +59,6 @@
           });
       }
 
-
-      let contentobj = {};
       // Function to render the table rows
       function renderTable() {
         const tableBody = document.querySelector("#blogTable tbody");
@@ -74,25 +71,22 @@
           const row = document.createElement("tr");
           let datess = new Date(post.date);
           const formattedDate = datess.toISOString().split("T")[0];
-          contentobj[post.id] = post.content;
+
           row.innerHTML = `
                     <td>${post.id}</td>
                     <td contenteditable>${post.sequence}</td>
                     <td contenteditable>${post.heading}</td>
                     <td contenteditable>${formattedDate}</td>
                     <td contenteditable>${post.tags}</td>
-                    <!-- <td contenteditable>${post.content}</td> -->
-                    <td contenteditable>
-                      <button id="content-btn" onclick="navigateToContentPage(${post.id})">Read me</button>
-                    </td>
+                    <td contenteditable>${post.content}</td>
                     <td contenteditable>${post.status}</td>
                     <td contenteditable>${post.category}</td>
-                    <td contenteditable>${post.url}</td>
+                    <td contenteditable>${post.blog}</td>
                     <td contenteditable>${post.image}</td>
                     <td><img src="${post.image}" alt="Post Image" style="max-width: 100px; max-height: 100px;"></td>
                     <td class="file-upload">
-                        <input type="file" class="file-input" id="fileInput_${post.id}" data-post-id="${post.id}" accept="image/*" onchange="uploadFile(event, ${post.id})" style="display: none;">
-                        <button class="file-upload-btn" onclick="document.getElementById('fileInput_${post.id}').click()">Upload</button>
+                        <input type="file" class="file-input" accept="image/*" onchange="handleFileChange(event, ${post.id})" style="display: none;">
+                        <button class="file-upload-btn" onclick="document.querySelector('.file-input').click()">Upload</button>
                     </td>
                     <td><button onclick="updatePost(${post.id})">Update</button></td>
                 `;
@@ -138,14 +132,11 @@
           rowToUpdate.querySelector("td:nth-child(3)").textContent;
         const date = rowToUpdate.querySelector("td:nth-child(4)").textContent;
         const tags = rowToUpdate.querySelector("td:nth-child(5)").textContent;
-        const content = contentobj[id];
+        const content =
+          rowToUpdate.querySelector("td:nth-child(6)").textContent;
         const status = rowToUpdate.querySelector("td:nth-child(7)").textContent;
-        const image = rowToUpdate.querySelector("td:nth-child(10)").textContent;
-        const category =
-          rowToUpdate.querySelector("td:nth-child(8)").textContent;
-        const url = rowToUpdate.querySelector("td:nth-child(9)").textContent;
+        const image = rowToUpdate.querySelector("td:nth-child(8)").textContent;
 
-        
         // Create an object with the updated data
         const postData = {
           id,
@@ -156,12 +147,9 @@
           content,
           status,
           image,
-          category,
-          url,
         };
 
         console.log(postData);
-
 
         fetch("https://139-59-5-56.nip.io:3443/updateBlog", {
           method: "POST",
@@ -229,27 +217,23 @@
 
       // Function to handle file change
       function handleFileChange(event, postId) {
-        console.log("handleFileChange");
         const fileInput = event.target;
         const uploadButton = fileInput.nextElementSibling;
 
-        // // Show the upload button only when a file is selected
-        // if (fileInput.files.length > 0) {
-        //   uploadButton.style.display = "block";
-        // } else {
-        //   uploadButton.style.display = "none";
-        // }
+        // Show the upload button only when a file is selected
+        if (fileInput.files.length > 0) {
+          uploadButton.style.display = "block";
+        } else {
+          uploadButton.style.display = "none";
+        }
       }
 
       /// Function to upload the file to imgbb.com
-      function uploadFile(event, postId) {
-        console.log("upload file w post id : ", postId);
-        console.log("upload file w event : ", event);
-
-        const fileInput = event.target;
+      function uploadFile(postId) {
+        const fileInput = document.querySelector(
+          `#blogTable tr[data-id="${postId}"] .file-input`
+        );
         const file = fileInput.files[0];
-
-        console.log("File selected:", file);
 
         if (file) {
           const formData = new FormData();
@@ -264,21 +248,9 @@
           )
             .then((response) => response.json())
             .then((data) => {
+              // Handle the response from imgbb.com, you can store the URL or use it as needed
               console.log("Image upload response:", data);
-              console.log("Image Uploaded Successfully");
-
-              const tableBody = document.querySelector("#blogTable tbody");
-              const rowToUpdate = Array.from(tableBody.children).find((row) => {
-                const idCell = row.querySelector("td:nth-child(1)");
-                return idCell.textContent == postId;
-              });
-              console.log("Image url:", data.data.url);
-
-              const imageCell = rowToUpdate.querySelector("td:nth-child(10)");
-              imageCell.innerHTML = `${data.data.url}`;
-
-              const imageCell2 = rowToUpdate.querySelector("td:nth-child(11)");
-              imageCell2.innerHTML = `<img src="${data.data.url}" alt="Post Image" style="max-width: 100px; max-height: 100px;">`;
+              alert("Image Uploaded Successfully");
             })
             .catch((error) => {
               console.error("Error uploading image:", error);
@@ -288,44 +260,8 @@
         }
       }
 
-      function navigateToContentPage(postId) {
-        // console.log(postId);
-        window.location.href = `Content/content.html?postId=${postId}`;
-      }
-
-      let sortAscending = true;
-
-      function sortTable() {
-      const tableBody = document.querySelector("#blogTable tbody");
-      const rows = Array.from(tableBody.children);
-
-      rows.sort((a, b) => {
-        const sequenceA = Number(a.querySelector("td:nth-child(2)").textContent);
-        const sequenceB = Number(b.querySelector("td:nth-child(2)").textContent);
-
-        if (sortAscending) {
-        return sequenceA - sequenceB;
-      } else {
-        return sequenceB - sequenceA;
-      }
-      });
-
-      // Clear existing rows
-      tableBody.innerHTML = "";
-
-      // Append sorted rows to the table
-      rows.forEach((row) => {
-        tableBody.appendChild(row);
-      });
-      sortAscending = !sortAscending;
-
-    }
-
-
-      window.onload = () => {
-      fetchData();
-    };
-
+      // Call the fetchData function when the page loads
+      window.onload = fetchData;
     </script>
   </body>
 </html>
