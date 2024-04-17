@@ -1,15 +1,33 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Scan Module</title>
-    <link rel="stylesheet" href="./styles.css" />
-  </head>
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Solidity Shield Scans Info</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
 
-  <body>
-    <header id="header">
-      <h1>Scans Module</h1>
-    </header>
-  </body>
+  <div id="header">
+    <h1>Scans Table</h1>
+  </div>
+
+  <div id="tableContainer">
+    <table id="userData">
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Email</th>
+          <th>Company</th>
+          <th>Date</th>
+          <th>Issues</th>
+        </tr>
+      </thead>
+      <tbody></tbody>
+    </table>
+  </div>
+
+  <script src="scan.js"></script>
+
+</body>
 </html>
