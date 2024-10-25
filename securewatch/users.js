@@ -26,7 +26,7 @@ function displayData(users) {
           <td>${user.id}</td>
           <td>${user.email}</td>
           <td>${user.created_on}</td>
-          <td>${user.modified_on}</td>
+          <td>${user.credits}</td>
         `;
     tableBody.appendChild(row);
   });
