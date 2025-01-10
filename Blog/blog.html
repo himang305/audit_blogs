@@ -29,6 +29,7 @@
             <th id="img-url">Image URL</th>
             <th>Image</th>
             <th>File Upload</th>
+            <th>Author</th> 
             <th>Action</th>
           </tr>
         </thead>
@@ -39,6 +40,17 @@
     <script>
       // Variable to store fetched data
       let apiResponse;
+
+      const authors = {
+    "": "Select Author",
+    "harshajit": "Harshajit",
+    "ram-kumar": "Ram Kumar",
+    "shyam-patel": "Shyam Patel",
+    "kartikeya-k": "Kartikeya K",
+    "irfan-ansari": "Irfan Ansari",
+    "hemlatha-s": "Hemlatha S",
+    "rashmi-bansal": "Rashmi Bansal"
+    }
 
       // Function to fetch data from the API
       function fetchData() {
@@ -75,6 +87,14 @@
           let datess = new Date(post.date);
           const formattedDate = datess.toISOString().split("T")[0];
           contentobj[post.id] = post.content;
+
+          const authorOptions = Object.keys(authors)
+          .map((key) => {
+            const isSelected = key === post.author ? 'selected' : '';
+            return `<option value="${key}" ${isSelected}>${authors[key]}</option>`;
+          })
+          .join("");
+
           row.innerHTML = `
                     <td>${post.id}</td>
                     <td contenteditable>${post.sequence}</td>
@@ -94,6 +114,11 @@
                         <input type="file" class="file-input" id="fileInput_${post.id}" data-post-id="${post.id}" accept="image/*" onchange="uploadFile(event, ${post.id})" style="display: none;">
                         <button class="file-upload-btn" onclick="document.getElementById('fileInput_${post.id}').click()">Upload</button>
                     </td>
+                    <td>
+                      <select class="author-select" data-post-id="${post.id}">
+                        ${authorOptions}
+                      </select>
+                    </td>
                     <td><button onclick="updatePost(${post.id})">Update</button></td>
                 `;
           tableBody.appendChild(row);
@@ -101,6 +126,10 @@
 
         // Add a row for creating a new post
         const newRow = document.createElement("tr");
+        const newAuthorOptions = Object.keys(authors)
+          .map((key) => `<option value="${key}">${authors[key]}</option>`)
+          .join("");
+
         newRow.innerHTML = `
                 <td contenteditable>New</td>
                 <td contenteditable></td>
@@ -112,6 +141,11 @@
                 <td contenteditable></td>
                 <td contenteditable></td>
                 <td></td>
+                <td>
+                <select class="author-select">
+                  ${newAuthorOptions}
+                </select>
+              </td>
                 <td><button onclick="insertPost()">Insert</button></td>
             `;
         tableBody.appendChild(newRow);
@@ -144,8 +178,8 @@
         const category =
           rowToUpdate.querySelector("td:nth-child(8)").textContent;
         const url = rowToUpdate.querySelector("td:nth-child(9)").textContent;
-
-        
+        const author = rowToUpdate.querySelector("select.author-select").value;
+        console.log("author = ", author);
         // Create an object with the updated data
         const postData = {
           id,
@@ -158,6 +192,7 @@
           image,
           category,
           url,
+          author
         };
 
         console.log(postData);
@@ -196,6 +231,8 @@
         const content = newRow.querySelector("td:nth-child(6)").textContent;
         const status = newRow.querySelector("td:nth-child(7)").textContent;
         const image = newRow.querySelector("td:nth-child(8)").textContent;
+        const author = newRow.querySelector("select.author-select").value;
+        console.log("author = ", author);
 
         // Create an object with the extracted data
         const postData = {
@@ -206,6 +243,7 @@
           content,
           status,
           image,
+          author
         };
 
         console.log(postData);
