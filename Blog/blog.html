@@ -22,6 +22,10 @@
             <th>Heading</th>
             <th>Date</th>
             <th>Tags</th>
+            <th>Meta Tags</th>
+            <th>Meta Description</th>
+            <th>Primary Keywords</th>
+            <th>Related Keywords</th>
             <th id="content">Content</th>
             <th>Status</th>
             <th>Category</th>
@@ -105,6 +109,10 @@
                     <td contenteditable>${post.heading}</td>
                     <td contenteditable>${formattedDate}</td>
                     <td contenteditable>${post.tags}</td>
+                    <td contenteditable>${post.meta_tags}</td>
+                    <td contenteditable>${post.meta_desc}</td>
+                    <td contenteditable>${post.prim_keys}</td>
+                    <td contenteditable>${post.rela_keys}</td>
                     <!-- <td contenteditable>${post.content}</td> -->
                     <td contenteditable>
                       <button id="content-btn" onclick="navigateToContentPage(${post.id})">Read me</button>
@@ -136,6 +144,10 @@
 
         newRow.innerHTML = `
                 <td contenteditable>New</td>
+                <td contenteditable></td>
+                <td contenteditable></td>
+                <td contenteditable></td>
+                <td contenteditable></td>
                 <td contenteditable></td>
                 <td contenteditable></td>
                 <td contenteditable></td>
@@ -176,12 +188,17 @@
           rowToUpdate.querySelector("td:nth-child(3)").textContent;
         const date = rowToUpdate.querySelector("td:nth-child(4)").textContent;
         const tags = rowToUpdate.querySelector("td:nth-child(5)").textContent;
+        const meta_tag = rowToUpdate.querySelector("td:nth-child(6)").textContent;
+        const meta_desc = rowToUpdate.querySelector("td:nth-child(7)").textContent;
+        const prim_keys = rowToUpdate.querySelector("td:nth-child(8)").textContent;
+        const rela_keys = rowToUpdate.querySelector("td:nth-child(9)").textContent;
+
         const content = contentobj[id];
-        const status = rowToUpdate.querySelector("td:nth-child(7)").textContent;
-        const image = rowToUpdate.querySelector("td:nth-child(10)").textContent;
+        const status = rowToUpdate.querySelector("td:nth-child(11)").textContent;
+        const image = rowToUpdate.querySelector("td:nth-child(14)").textContent;
         const category =
-          rowToUpdate.querySelector("td:nth-child(8)").textContent;
-        const url = rowToUpdate.querySelector("td:nth-child(9)").textContent;
+          rowToUpdate.querySelector("td:nth-child(12)").textContent;
+        const url = rowToUpdate.querySelector("td:nth-child(13)").textContent;
         const author = rowToUpdate.querySelector("select.author-select").value;
         console.log("author = ", author);
         // Create an object with the updated data
@@ -191,6 +208,10 @@
           heading,
           date,
           tags,
+          meta_tag,
+          meta_desc,
+          prim_keys,
+          rela_keys,
           content,
           status,
           image,
@@ -232,9 +253,14 @@
         const heading = newRow.querySelector("td:nth-child(3)").textContent;
         const date = newRow.querySelector("td:nth-child(4)").textContent;
         const tags = newRow.querySelector("td:nth-child(5)").textContent;
-        const content = newRow.querySelector("td:nth-child(6)").textContent;
-        const status = newRow.querySelector("td:nth-child(7)").textContent;
-        const image = newRow.querySelector("td:nth-child(8)").textContent;
+        const meta_tags = newRow.querySelector("td:nth-child(5)").textContent;
+        const meta_desc = newRow.querySelector("td:nth-child(5)").textContent;
+        const prim_keys = newRow.querySelector("td:nth-child(5)").textContent;
+        const rela_keys = newRow.querySelector("td:nth-child(5)").textContent;
+
+        const content = newRow.querySelector("td:nth-child(10)").textContent;
+        const status = newRow.querySelector("td:nth-child(11)").textContent;
+        const image = newRow.querySelector("td:nth-child(12)").textContent;
         const author = newRow.querySelector("select.author-select").value;
         console.log("author = ", author);
 
@@ -244,6 +270,10 @@
           heading,
           date,
           tags,
+          meta_tags,
+          meta_desc,
+          prim_keys,
+          rela_keys,
           content,
           status,
           image,
@@ -316,10 +346,10 @@
               });
               console.log("Image url:", data.data.url);
 
-              const imageCell = rowToUpdate.querySelector("td:nth-child(10)");
+              const imageCell = rowToUpdate.querySelector("td:nth-child(14)");
               imageCell.innerHTML = `${data.data.url}`;
 
-              const imageCell2 = rowToUpdate.querySelector("td:nth-child(11)");
+              const imageCell2 = rowToUpdate.querySelector("td:nth-child(15)");
               imageCell2.innerHTML = `<img src="${data.data.url}" alt="Post Image" style="max-width: 100px; max-height: 100px;">`;
             })
             .catch((error) => {
